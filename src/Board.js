@@ -115,7 +115,7 @@
     hasAnyColConflicts: function(){
       var numCols = this.get('n');
       for (var i = 0; i < numCols; i++) {
-        if (hasColConflictAt(i)) { return true; }
+        if (this.hasColConflictAt(i)) { return true; }
       }
       return false; 
     },
@@ -132,7 +132,7 @@
       for (var i = 0; i < numCols; i++){
         var row = this.get(i);
         var col = majorDiagonalColumnIndexAtFirstRow + i;
-        if (this._isInBounds(row, col)) { 
+        if (this._isInBounds(i, col)) { 
           counter += row[col];
         }
       }
@@ -143,7 +143,7 @@
     hasAnyMajorDiagonalConflicts: function(){
       var numCols = this.get('n');
       for (var i = -numCols + 1; i < numCols; i++) {
-        if (hasMajorDiagonalConflictAt(i)) { return true; }
+        if (this.hasMajorDiagonalConflictAt(i)) { return true; }
       }
       return false; 
     },
@@ -159,8 +159,8 @@
       var counter = 0;
       for (var i = 0; i < numCols; i++){
         var row = this.get(i);
-        var col = majorDiagonalColumnIndexAtFirstRow - i;
-        if (this._isInBounds(row, col)) { 
+        var col = minorDiagonalColumnIndexAtFirstRow - i;
+        if (this._isInBounds(i, col)) { 
           counter += row[col];
         }
       }
@@ -172,7 +172,7 @@
     hasAnyMinorDiagonalConflicts: function(){
       var numCols = this.get('n');
       for (var i = 0 + 1; i < 2 * numCols - 1; i++) {
-        if (hasMinorDiagonalConflictAt(i)) { return true; }
+        if (this.hasMinorDiagonalConflictAt(i)) { return true; }
       }
       return false; 
 
