@@ -52,41 +52,50 @@ window.findNRooksSolution = function(n){
 
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
+// window.countNRooksSolutions = function(n){
+//   var solutionCount = 0;
+//   var board = new Board({n:n});
+
+//   // recursive subroutine - with everything you keep track of passed as arguments
+//   var countRookSolutions = function(rookBoard, rowIndex, numCols) {
+
+//     // exit strategy - when we're in the last row and we've placed a rook
+//     // want to increment the count
+//     if (rowIndex === numCols) {
+//       solutionCount++;
+//       return;
+//     }
+
+//     // otherwise keep trying to place the rook
+//     for (var i = 0; i < numCols; i++){
+
+//       // place the rook by toggling the piece (0 -> 1)
+//       board.togglePiece(rowIndex, i);
+
+//       // check if there are any conflicts now that the piece has been placed
+//       // if we've reached the end of the board, we want to return the solution 
+//       // (before we start toggling the pieces back)
+//       if (!rookBoard.hasAnyRooksConflicts()){
+//         countRookSolutions(rookBoard, rowIndex+1, numCols);
+//       }
+
+//       // take the rook out of that place (1 -> 0)
+//       board.togglePiece(rowIndex, i);
+//     }
+//   };
+
+//   countRookSolutions(board, 0, n, []);
+//   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
+//   return solutionCount;
+// };
+
+// The mathematical approach to counting rooks
+// we know that we can place the first rook in one of 4 places
+// and the second rook in one of 3 places, etc 
+// so we can do this without using a board
 window.countNRooksSolutions = function(n){
-  var solutionCount = 0;
-  var board = new Board({n:n});
-
-  // recursive subroutine - with everything you keep track of passed as arguments
-  var countRookSolutions = function(rookBoard, rowIndex, numCols) {
-
-    // exit strategy - when we're in the last row and we've placed a rook
-    // want to increment the count
-    if (rowIndex === numCols) {
-      solutionCount++;
-      return;
-    }
-
-    // otherwise keep trying to place the rook
-    for (var i = 0; i < numCols; i++){
-
-      // place the rook by toggling the piece (0 -> 1)
-      board.togglePiece(rowIndex, i);
-
-      // check if there are any conflicts now that the piece has been placed
-      // if we've reached the end of the board, we want to return the solution 
-      // (before we start toggling the pieces back)
-      if (!rookBoard.hasAnyRooksConflicts()){
-        countRookSolutions(rookBoard, rowIndex+1, numCols);
-      }
-
-      // take the rook out of that place (1 -> 0)
-      board.togglePiece(rowIndex, i);
-    }
-  };
-
-  countRookSolutions(board, 0, n, []);
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
-  return solutionCount;
+  if (n === 0) { return 1; }
+  return n * countNRooksSolutions(n-1);
 };
 
 
