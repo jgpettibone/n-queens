@@ -99,28 +99,19 @@ window.findNQueensSolution = function(n){
     if (rowIndex === numCols) {
       return queenBoard.rows();
     }
-
-    // otherwise keep trying to place the rook
     for (var i = 0; i < numCols; i++){
 
-      // place the rook by toggling the piece (0 -> 1)
       board.togglePiece(rowIndex, i);
-
-      // check if there are any conflicts now that the piece has been placed
-      // if we've reached the end of the board, we want to return the solution 
-      // (before we start toggling the pieces back)
       if (!queenBoard.hasAnyQueensConflicts()){
         var result = getQueenSolution(queenBoard, rowIndex+1, numCols);
         if (result) { return solution = result; }
       }
-
-      // take the rook out of that place (1 -> 0)
       board.togglePiece(rowIndex, i);
     }
-
   };
 
   getQueenSolution(board, 0, n);
+  if (!solution) { solution = board.rows(); }
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
