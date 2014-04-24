@@ -13,8 +13,41 @@
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 window.findNRooksSolution = function(n){
-  var solution = undefined; //fixme
+  var solution;
+  var board = new Board({n:n});
+  console.log("board", board);
 
+  // recursive subroutine - with everything you keep track of passed as arguments
+  var getRookSolution = function(rookBoard, startRow, numRows) {
+
+    // console.log(rookBoard);
+
+    // exit strategy - when we're in the last row and we've placed a rook
+    // want to return the rows since that's what's expected output
+    if (startRow === numRows) {
+      return rookBoard.rows();
+    }
+
+    // otherwise keep trying to place the rook
+    for (var i = 0; i < numRows; i++){
+
+      // place the rook by toggling the piece (0 -> 1)
+      board.togglePiece(startRow, i);
+
+      // check if there are any conflicts now that the piece has been placed
+      // if we've reached the end of the board, we want to return the solution 
+      // (before we start toggling the pieces back)
+      if (!rookBoard.hasAnyRooksConflicts()){
+        var result = getRookSolution(rookBoard, startRow+1, numRows);
+        if (result) { return solution = result; }
+      }
+
+      // take the rook out of that place (1 -> 0)
+      board.togglePiece(startRow, i);
+    }
+  };
+
+  getRookSolution(board, 0, n, []);
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
